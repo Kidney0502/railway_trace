@@ -267,7 +267,7 @@ def main():
                 if start_flag or end_flag:
                     train_number = input("车号（如G1(北京南-上海虹桥)）: ")
                     train_service = input("路局（如上海局）: ")
-                    start_to_end_input = input("乘坐区间（如2023-01-01 08:00-12:30 北京南-上海虹桥 (CR400BF-BZ)，多个用顿号分隔）: ")
+                    start_to_end_input = input("乘坐区间（如2023-01-01 08:00-12:30 北京南-上海虹桥(CR400BF-BZ)，多个用顿号分隔）: ")
                     
                     start_to_end = [s.strip() for s in start_to_end_input.split('、')] if start_to_end_input else []
                 else:
