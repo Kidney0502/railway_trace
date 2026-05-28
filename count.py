@@ -37,6 +37,7 @@ def main():
     
     # 统计变量
     train_types = Counter()  # 车型统计
+    train_service = Counter()  # 路局统计
     train_type_categories = Counter()  # 和谐号/复兴号分类统计
     start_points = Counter()  # 起点统计
     end_points = Counter()  # 终点统计
@@ -47,8 +48,10 @@ def main():
             # 提取区间信息
             start_to_end = data.get('start_to_end', '')
             start_flag = data.get('start_flag', False)
+            service= data.get('train_service', '')
             if not start_flag:
                 continue
+
             
             # 处理列表或字符串
             if isinstance(start_to_end, list) and start_to_end:
@@ -60,6 +63,7 @@ def main():
             
             # 遍历所有区间信息
             for interval_str in interval_list:
+                train_service[service] += 1
                 # 解析车型
                 base_type = parse_train_type(interval_str)
                 if base_type:
@@ -69,7 +73,7 @@ def main():
                 
                 # 提取起点和终点（从区间字符串中提取）
                 # 格式如：2023-01-01 08:00-12:30 北京南-上海虹桥 (CR400BF-BZ)
-                match = re.search(r'(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}-\d{2}:\d{2}\s+)?([\u4e00-\u9fa5]+[东|西|南|北|站]?)-([\u4e00-\u9fa5]+[东|西|南|北|站]?)', interval_str)
+                match = re.search(r'(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}-\d{2}:\d{2}\s+)?([\u4e00-\u9fa5]+)-([\u4e00-\u9fa5]+)', interval_str)
                 if match:
                     start = match.group(2).strip()
                     end = match.group(3).strip()
@@ -152,14 +156,20 @@ def main():
             for train_type, count in sorted(items, key=lambda x: x[0]):
                 output_lines.append(f"  │   └ {train_type}: {count} 次")
     
+    # 路局统计
+    output_lines.append("\n二、路局统计")
+    output_lines.append("-" * 40)
+    for service, count in train_service.most_common():
+        output_lines.append(f"{service}: {count} 次")
+    
     # 起点统计
-    output_lines.append("\n二、起点统计")
+    output_lines.append("\n三、起点统计")
     output_lines.append("-" * 40)
     for station, count in start_points.most_common():
         output_lines.append(f"{station}: {count} 次")
     
     # 终点统计
-    output_lines.append("\n三、终点统计")
+    output_lines.append("\n四、终点统计")
     output_lines.append("-" * 40)
     for station, count in end_points.most_common():
         output_lines.append(f"{station}: {count} 次")
@@ -174,6 +184,7 @@ def main():
     print(f"- 和谐号: {train_type_categories.get('和谐号', 0)} 次")
     print(f"- 复兴号: {train_type_categories.get('复兴号', 0)} 次")
     print(f"- 总车型数: {len(train_types)} 种")
+    print(f"- 路局数: {len(train_service)} 个")
     print(f"- 起点数: {len(start_points)} 个")
     print(f"- 终点数: {len(end_points)} 个")
 
