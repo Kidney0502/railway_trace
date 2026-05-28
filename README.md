@@ -88,15 +88,15 @@ railway_trace_map.html
 - 配置文件说明
 
 
-```json
+```plain
 "线路文件名.geojson": {
   "1": {
-    "line_value": 1,        // 1=高铁 0=普速
-    "start_flag": 1,        // 1=显示起点 0=隐藏
-    "end_flag": 1,          // 1=显示终点 0=隐藏
-    "train_number": "G1",   // 车号
-    "train_service": "上海局", // 路局
-    "start_to_end": ["区间1","区间2"] // 乘坐区间列表
+    "line_value": 1,        # 1=高铁 0=普速
+    "start_flag": 1,        # 1=显示起点 0=隐藏
+    "end_flag": 1,          # 1=显示终点 0=隐藏
+    "train_number": "G1",   # 车号
+    "train_service": "上海局", # 路局
+    "start_to_end": ["区间1","区间2"] # 乘坐区间列表
   }
 }
 ```
